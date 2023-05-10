@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -21,7 +22,7 @@ class sqldb {
 
   _createDB(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE IF NOT EXISTS livres (id INTEGER PRIMARY KEY AUTO_INCREMENT, titre TEXT, auteur TEXT, annee INTEGER, image TEXT, description TEXT)");
+        "CREATE TABLE IF NOT EXISTS Books (id INTEGER PRIMARY KEY AUTOINCREMENT, titre TEXT, auteur TEXT, annee INTEGER, description TEXT)");
     print("table created");
   }
 
@@ -34,6 +35,18 @@ class sqldb {
   readData(String sql) async {
     Database? mydb = await db;
     List<Map<String, dynamic>> rep = await mydb!.rawQuery(sql);
+    return rep;
+  }
+
+  deleteData(String sql) async {
+    Database? mydb = await db;
+    int rep = await mydb!.rawDelete(sql);
+    return rep;
+  }
+
+  updateData(String sql) async {
+    Database? mydb = await db;
+    int rep = await mydb!.rawUpdate(sql);
     return rep;
   }
 }
